@@ -29,4 +29,4 @@ def process_document(file_path: str) -> dict:
         "file_name": file_name,
         "full_text": full_text,
         "chunks": chunks
-    }
+}
