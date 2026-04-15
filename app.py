@@ -51,7 +51,7 @@ with gr.Blocks(title="Automated Support Knowledge Base") as app:
         gr.Markdown("### Upload Documents")
         file_input = gr.File(label="Upload PDF", file_types=[".pdf"])
         upload_btn = gr.Button("Load Document", variant="primary")
-        upload_output = gr.Texbox(label="Status")
+        upload_output = gr.Textbox(label="Status")
         doc_list = gr.Dropdown(label="Loaded Documents", choices=[], interactive=False)
         
         upload_btn.click(
