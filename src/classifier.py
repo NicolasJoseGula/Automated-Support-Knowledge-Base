@@ -6,11 +6,6 @@ class Classifier:
             task="zero-shot-classification",
             model="facebook/bart-large-mnli"
         )
-        self.sentiment_classifier = pipeline(
-            task="text-classification",
-            model="distilbert-base-uncased-finetuned-sst-2-english"
-        )
-    
     def categorize(self, question: str) -> dict:
         categories = [
             "billing and payments",
@@ -28,9 +23,12 @@ class Classifier:
         }
         
     def detect_urgency(self, question: str) -> str:
-        result = self.sentiment_classifier(question)
-        label = result[0]["label"]
-
-        if label == "NEGATIVE":
+        urgency_keywords = [
+            "urgent", "critical", "broken", "not working",
+            "can't", "cannot", "error", "crash", "failed",
+            "down", "emergency", "asap", "immediately"
+        ]
+        question_lower = question.lower()
+        if any(keyword in question_lower for keyword in urgency_keywords):
             return "HIGH"
         return "NORMAL"

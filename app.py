@@ -12,10 +12,11 @@ summarizer = Summarizer()
 
 def load_document(file):
     if file is None:
-        return "No file is uploaded.", []
-    
+        return "No file is uploaded.", [], []
+
     message = kb.add_document(file.name)
-    return message, kb.list_documents()
+    docs = kb.list_documents()
+    return message, gr.Dropdown(choices=docs), gr.Dropdown(choices=docs)
 
 def ask_question(question):
     if not question.strip():
@@ -54,12 +55,6 @@ with gr.Blocks(title="Automated Support Knowledge Base") as app:
         upload_output = gr.Textbox(label="Status")
         doc_list = gr.Dropdown(label="Loaded Documents", choices=[], interactive=False)
         
-        upload_btn.click(
-            fn=load_document,
-            inputs=file_input,
-            outputs=[upload_output, doc_list]
-        )
-        
     with gr.Tab("Ask a question"):
         gr.Markdown("### Ask anything about your documents")
         question_input = gr.Textbox(label="Your Question", placeholder="e.g. What is the return policy?")
@@ -90,6 +85,12 @@ with gr.Blocks(title="Automated Support Knowledge Base") as app:
             inputs=doc_selector,
             outputs=summary_output
         )
+
+    upload_btn.click(
+        fn=load_document,
+        inputs=file_input,
+        outputs=[upload_output, doc_list, doc_selector]
+    )
         
 if __name__ == "__main__":
     app.launch()

@@ -1,6 +1,14 @@
 import re
 from src.document_processor import process_document
 
+STOP_WORDS = {
+    "what", "is", "the", "a", "an", "in", "of", "to", "and", "or",
+    "how", "why", "when", "where", "who", "which", "that", "this",
+    "are", "was", "were", "be", "been", "being", "have", "has", "had",
+    "do", "does", "did", "will", "would", "could", "should", "may",
+    "can", "about", "for", "with", "from", "by", "at", "on", "it"
+}
+
 class KnowledgeBase:
     def __init__(self):
         self.documents = []
@@ -17,7 +25,7 @@ class KnowledgeBase:
         if not self.documents:
             return ""
         
-        question_words = set(re.findall(r'\w+', question.lower()))
+        question_words = set(re.findall(r'\w+', question.lower())) - STOP_WORDS
         best_chunk = ""
         best_score = -1
         
@@ -28,7 +36,7 @@ class KnowledgeBase:
                 if score > best_score:
                     best_score = score
                     best_chunk = chunk
-        return chunk
+        return best_chunk
     
     
     
