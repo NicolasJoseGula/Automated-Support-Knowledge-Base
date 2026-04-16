@@ -1,5 +1,7 @@
 # Automated Support Knowledge Base
 
+![](./images/logo.png)
+
 An AI-powered support system that allows users to upload documents and get instant answers, automatic categorization, urgency detection, and document summaries — all powered by Hugging Face Transformers.
 
 ---
